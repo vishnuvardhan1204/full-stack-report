@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Add Entry - Expense Tracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-4">Add Income/Expense</h3>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="amount" class="form-label">Amount ($)</label>
+                                <input type="number" class="form-control" id="amount" name="amount" step="0.01" min="0" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="expense_type" class="form-label">Type</label>
+                                <select class="form-select" id="expense_type" name="expense_type" required>
+                                    <option value="">Select Type</option>
+                                    <option value="income">Income</option>
+                                    <option value="expense">Expense</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <select class="form-select" id="category" name="category" required>
+                                    <option value="">Select Category</option>
+                                    <optgroup label="Income Categories">
+                                        <option value="Salary">Salary</option>
+                                        <option value="Freelance">Freelance</option>
+                                        <option value="Investment">Investment</option>
+                                        <option value="Other Income">Other Income</option>
+                                    </optgroup>
+                                    <optgroup label="Expense Categories">
+                                        <option value="Food">Food</option>
+                                        <option value="Transportation">Transportation</option>
+                                        <option value="Entertainment">Entertainment</option>
+                                        <option value="Shopping">Shopping</option>
+                                        <option value="Bills">Bills</option>
+                                        <option value="Healthcare">Healthcare</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Other">Other</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary me-md-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Add Entry</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Set today's date as default
+    document.getElementById('date').valueAsDate = new Date();
+    
+    // Update category options based on type selection
+    document.getElementById('expense_type').addEventListener('change', function() {
+        const category = document.getElementById('category');
+        const type = this.value;
+        
+        // Reset category selection
+        category.value = '';
+        
+        // Show/hide optgroups based on type
+        const incomeGroup = category.querySelector('optgroup[label="Income Categories"]');
+        const expenseGroup = category.querySelector('optgroup[label="Expense Categories"]');
+        
+        if (type === 'income') {
+            incomeGroup.style.display = 'block';
+            expenseGroup.style.display = 'none';
+        } else if (type === 'expense') {
+            incomeGroup.style.display = 'none';
+            expenseGroup.style.display = 'block';
+        } else {
+            incomeGroup.style.display = 'block';
+            expenseGroup.style.display = 'block';
+        }
+    });
+</script>
+{% endblock %}

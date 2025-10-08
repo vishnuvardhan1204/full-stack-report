@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Entry - Expense Tracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-4">Edit Entry</h3>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ expense.title }}" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="amount" class="form-label">Amount ($)</label>
+                                <input type="number" class="form-control" id="amount" name="amount" step="0.01" min="0" value="{{ expense.amount }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="expense_type" class="form-label">Type</label>
+                                <select class="form-select" id="expense_type" name="expense_type" required>
+                                    <option value="income" {{ 'selected' if expense.expense_type == 'income' }}>Income</option>
+                                    <option value="expense" {{ 'selected' if expense.expense_type == 'expense' }}>Expense</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <select class="form-select" id="category" name="category" required>
+                                    <optgroup label="Income Categories">
+                                        <option value="Salary" {{ 'selected' if expense.category == 'Salary' }}>Salary</option>
+                                        <option value="Freelance" {{ 'selected' if expense.category == 'Freelance' }}>Freelance</option>
+                                        <option value="Investment" {{ 'selected' if expense.category == 'Investment' }}>Investment</option>
+                                        <option value="Other Income" {{ 'selected' if expense.category == 'Other Income' }}>Other Income</option>
+                                    </optgroup>
+                                    <optgroup label="Expense Categories">
+                                        <option value="Food" {{ 'selected' if expense.category == 'Food' }}>Food</option>
+                                        <option value="Transportation" {{ 'selected' if expense.category == 'Transportation' }}>Transportation</option>
+                                        <option value="Entertainment" {{ 'selected' if expense.category == 'Entertainment' }}>Entertainment</option>
+                                        <option value="Shopping" {{ 'selected' if expense.category == 'Shopping' }}>Shopping</option>
+                                        <option value="Bills" {{ 'selected' if expense.category == 'Bills' }}>Bills</option>
+                                        <option value="Healthcare" {{ 'selected' if expense.category == 'Healthcare' }}>Healthcare</option>
+                                        <option value="Education" {{ 'selected' if expense.category == 'Education' }}>Education</option>
+                                        <option value="Other" {{ 'selected' if expense.category == 'Other' }}>Other</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" value="{{ expense.date.strftime('%Y-%m-%d') }}" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('view_expenses') }}" class="btn btn-secondary me-md-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Update Entry</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
